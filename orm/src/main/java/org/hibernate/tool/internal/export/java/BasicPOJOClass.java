@@ -1,10 +1,6 @@
 package org.hibernate.tool.internal.export.java;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.hibernate.internal.util.StringHelper;
 import org.hibernate.mapping.Array;
@@ -38,13 +34,10 @@ abstract public class BasicPOJOClass implements POJOClass, MetaAttributeConstant
 	protected final Cfg2JavaTool c2j;
 	
 	public BasicPOJOClass(MetaAttributable ma, Cfg2JavaTool c2j) {
-		this.meta = ma;
-		this.c2j = c2j;		
-		
-		if(this.meta==null) {
-			throw new IllegalArgumentException("class Argument must be not null");
-		}
-		if(this.c2j==null) throw new IllegalArgumentException("c2j must be not null");
+
+		this.meta = Assert.notNull(ma, "class Argument must be not null");
+		this.c2j = Assert.notNull(c2j, "c2j must be not null");
+
 	}
 	
 	// called by subclasses
