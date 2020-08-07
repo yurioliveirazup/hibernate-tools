@@ -45,13 +45,8 @@ abstract public class BasicPOJOClass implements POJOClass, MetaAttributeConstant
 		importContext = new ImportContextImpl(getPackageName());
 		
 		MetaAttribute metaAttribute = meta.getMetaAttribute("extra-import");
-		if(metaAttribute!=null) {
-			Iterator<?> values = metaAttribute.getValues().iterator();
-			while ( values.hasNext() ) {
-				String element = (String) values.next();
-				importContext.importType(element);				
-			}
-		}	
+		new ImportHelper(importContext).initializeImports(metaAttribute);
+
 	}
 	
 	protected String getPackageDeclaration(String pkgName) {
@@ -81,7 +76,7 @@ abstract public class BasicPOJOClass implements POJOClass, MetaAttributeConstant
 	public String getQualifiedDeclarationName() {
 		String generatedName = qualifyInnerClass(getGeneratedClassName());
 		String qualifier = StringHelper.qualifier( getMappedClassName() );
-		if ( "".equals( qualifier ) ) {
+		if ("".equals( qualifier )) {
 			return qualifier + "." + generatedName;
 		}
 		else {
